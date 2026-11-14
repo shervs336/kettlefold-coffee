@@ -54,7 +54,8 @@ export async function POST(req: Request) {
     return { p, l, unit: unitPrice(p, l.size) };
   });
   const subtotal = items.reduce((s, i) => s + i.unit * i.l.quantity, 0);
-  const origin = req.headers.get("origin") ?? process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  // Where Stripe sends the buyer back: this site, never a client-supplied header.
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || new URL(req.url).origin;
 
   try {
     const session = await stripe().checkout.sessions.create({
