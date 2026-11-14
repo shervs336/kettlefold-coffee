@@ -5,7 +5,8 @@ import { fulfillSession } from "@/lib/fulfill";
 export async function POST(req: Request) {
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
   const signature = req.headers.get("stripe-signature");
-  if (!secret || !signature) return new Response("Webhook not configured", { status: 400 });
+  if (!secret) return new Response("Webhook not configured", { status: 500 });
+  if (!signature) return new Response("Missing Stripe signature", { status: 400 });
 
   const body = await req.text(); // raw body is required for signature verification
   let event;
