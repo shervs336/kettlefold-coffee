@@ -46,7 +46,7 @@ Most shoppers also don't know the difference between a washed Ethiopian and a na
 ## Testing
 
 - **Checkout abuse:** garbage carts, made-up products, sold-out items, carts over the stock limit and negative quantities are all rejected. A cart with an edited price was charged the real price ($16.00).
-- **Webhook:** unsigned requests are rejected.
+- **Webhook:** missing and forged signatures are rejected. A purchase on the live site was delivered by Stripe, acknowledged, and saved as exactly one order.
 - **Database permissions:** checked with the public key. It can't read embeddings or orders, and it can't call the order function.
 - **Real test purchase through Stripe:** one order, correct items, stock down by exactly one bag each, and the receipt sent. Reloading the success page 3 times in a row and 3 times at once still left one order and the same stock.
 - **Browser test (headless Chrome), 16/16 passing:** filters kept in the URL, search, sorting, taste search, stock limits, zoom, gallery, similar coffees, admin redirect, and no sideways scrolling on phones.

@@ -53,7 +53,7 @@ More in [`docs/screenshots`](docs/screenshots). The case study is in [`docs/case
 
 ## Security and correctness (tested)
 - **Checkout abuse:** garbage carts, made-up products, sold-out items, more than is in stock and negative quantities are all rejected. A cart with an edited price was charged the real price.
-- **Webhooks:** requests without a valid Stripe signature are rejected.
+- **Webhooks:** requests with a missing or forged Stripe signature are rejected. A purchase on the live site was delivered by Stripe and acknowledged, and it was recorded as exactly one order with stock lowered by one bag.
 - **Database:** row-level security on every table. The public key can read active products only, and not their embeddings. It can't read orders, and it can't call the order or vector-search functions. Only the server can.
 - **Test mode only:** the app refuses to start checkout with a live Stripe key.
 - **A real purchase, end to end:** one order saved, the correct items, stock lowered by exactly one bag each, and the receipt sent. Reloading the success page 3 times in a row and 3 times at once still left **one** order.
